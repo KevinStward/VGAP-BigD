@@ -12,6 +12,9 @@ body {
   font-family: "Open Sans", sans-serif;
   color: #444;
 }
+.sin-barra{
+  /*overflow: hidden;*/
+}
 
 a {
   color: #4fa6d5;
@@ -655,6 +658,65 @@ section {
 .services .title {
   font-weight: 700;
   margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.services .title-moderna {
+  font-weight: 700;
+  font-size: 18px;
+  border-bottom: 1px solid #b8bbc1;
+  padding-bottom: 2px;
+}
+
+.services .title-moderna a {
+  color: #111;
+}
+
+.services .caracteristicas {
+  padding-top: px;
+  text-align: left;
+}
+
+.services .buttom-card {
+  padding: 4px;
+  background-color: #2282ff;
+  color: #fff;
+  text-align: left;
+
+}
+
+.services .footer-card a{
+  color: #fff;
+}
+
+.services .footer-card{
+  margin-top: 25px;
+  font-weight: 400;
+  color: #fff;
+  border-radius: 10px;
+  padding: 8px;
+  background-color: #ffaac7;
+  transition: 50ms;
+}
+
+.services .footer-card:hover{
+  border-top: 10px;
+  font-weight: 400;
+  color: #fff;
+  border-radius: 10px;
+  padding: 8px;
+  background-color: #ff689b;
+}
+
+.services .subtile-card {
+  font-size: 14px;
+}
+
+.services .label {
+  font-size: 8px;
+}
+
+.services .value {
   font-size: 18px;
 }
 

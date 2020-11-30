@@ -38,7 +38,7 @@
   ======================================================== -->
 </head>
 
-<body>
+<body class="sin-barra">
 
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top header-transparent">
@@ -50,7 +50,7 @@
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
 
-      <nav class="nav-menu float-right d-none d-lg-block">
+      <!--<nav class="nav-menu float-right d-none d-lg-block">
         <ul>
           <li class="active"><a href="index.html">Home</a></li>
           <li><a href="about.html">About Us</a></li>
@@ -175,35 +175,120 @@
       </div>
     </section><!-- End Services Section -->
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
       <div class="container">
 
         <div class="row">
-          <div class="col-md-12 col-lg-6 d-flex align-items-stretch" data-aos="fade-up">
+          <div class="col-md-6 col-lg-3 align-items-stretch" data-aos="fade-up">
             <div class="icon-box icon-box-pink">
-              <div class="row">
-                <div class="col-5">
-                  <img src="https://www.vgchartz.com/games/boxart/full_2258645AmericaFrontccc.jpg" alt="" class="card-img">
-                </div>
-                <div class="col-7">
-                  <h4 class="title">
-                    <a href="">Lorem Ipsum</a>
-                  </h4>
-                  <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
-                    occaecati cupiditate non provident</p>
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <div class="header-card">
+                <h4 class="title-moderna"><a href="">Wii Sports</a></h4>
+                <span class="subtile-card">Sports</span>
+              </div>
+              <div class="caracteristicas">
+                <div class="row">
+                  <div class="col">
+                    <div class="label">Platform</div>
+                    <div class="value">Wii</div>
+                    <div class="label">Year</div>
+                    <div class="value">2006</div>
+                  </div>
+                  <div class="col">
+                    <div class="label">Publisher</div>
+                    <div class="value">Nintendo</div>
+                    <div class="label">Rating</div>
+                    <div class="value">E</div>
+                  </div>
                 </div>
               </div>
+              <a href="#" data-toggle="modal" data-target="#exampleModal">
+              <div type="button" class="footer-card" >
+                <span> Details</span>
+              </div>
+              </a>
             </div>
           </div>
 
-          <div class="col-md-12 col-lg-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
             <div class="icon-box icon-box-cyan">
               <div class="icon"><i class="bx bx-file"></i></div>
               <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
               <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
                 fugiat nulla pariatur</p>
             </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon-box icon-box-green">
+              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <h4 class="title"><a href="">Magni Dolores</a></h4>
+              <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                mollit anim id est laborum</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon-box icon-box-blue">
+              <div class="icon"><i class="bx bx-world"></i></div>
+              <h4 class="title"><a href="">Nemo Enim</a></h4>
+              <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                praesentium voluptatum deleniti atque</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Services Section Tercera ======= -->
+    <section id="services" class="services">
+      <div class="container">
+
+        <div class="row">
+          
+          <div class="col-md-12 col-lg- d-flex align-items-stretch" data-aos="fade-up">
+            <div class="icon-box icon-box-pink" style="padding: 0px;border: 0px">
+              <div class="row">
+                <div class="col-2" style="background-color: rgb(97, 195, 240);">
+                  <span style="color: #fff;">1</span>
+                </div>
+                <div class="col-7" style="padding: 30px;border: 1px solid #fff;">
+                  <h4 class=""><a href="">Wii Sports</a></h4>
+                  <p class="">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
+                    occaecati cupiditate non provident</p>
+                </div>
+                <div class="col-3" style="padding: 30px;border: 1px solid #fff;">
+                </div>
+              </div>
+              <!--<div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
+                occaecati cupiditate non provident</p>
+            </div>-->
           </div>
 
         </div>

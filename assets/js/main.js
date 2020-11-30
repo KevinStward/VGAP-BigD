@@ -6,7 +6,10 @@
 */
 !(function($) {
   "use strict";
-
+  $(document).on('click', '.btn-get-started', function(e){
+    $('.sin-barra').removeClass("sin-barra");
+    return true;
+  })
   // Toggle .header-scrolled class to #header when page is scrolled
   $(window).scroll(function() {
     if ($(this).scrollTop() > 100) {
