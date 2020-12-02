@@ -1,7 +1,8 @@
 //var myChart = document.getElementById('myChart').getContext('2d');
 //var content = document.getElementById('Content')
 let cardContent = document.getElementById('cards-for-games')
-
+let chartSummary = document.getElementById('summary-content')
+deleteElemtos(chartSummary)
 //Conect to Firebase
 var firebaseConfig = {
   apiKey: "AIzaSyC4olR_uHqh4BMUCmFHRH2sReq84KpmSBA",
@@ -27,21 +28,25 @@ const GetWhere = (Genre) => firestore.collection("BaseGames").where('Genre', '==
 btnTodo.addEventListener('click', async (e) => {
   let summaryContent = document.getElementById('summary-content')
   deleteElemtos(cardContent)
-
+  summaryGtaph();
   const games = await GetGames()
   games.forEach(doc => {
     let van = doc.data()
     generateCard(van);
   });
 })
-summaryGtaph();
+
 async function summaryGtaph(){
-  let chartSummary = document.getElementById('char-summary')
   const games = await GetGames()
-  games.forEach(doc => {
-    let van = doc.data()
-    console.log(van)
-  });
+  nPublisher = Hash(games,'Publisher', true)
+
+  chartSummary.innerHTML =`
+    
+  <canvas id = "ctx2" width="50px" height="40px"></canvas>
+  
+  `
+  let CTX2= document.getElementById('ctx2').getContext('2d');
+  char1(nPublisher, CTX2)
 
 }
 
@@ -111,26 +116,36 @@ function deleteElemtos(elm) {
     elm.removeChild(elm.firstChild);
   }
 }
-function char(doc, ctx) {
+
+function char1(doc, ctx) {
+  let labelsDoc = [];
+  let dataDoc = [];
+  for (const key in doc) {
+    console.log(key);
+    labelsDoc.push(key)
+  }
+  for (const key in doc) {
+    console.log(doc[key]);
+    dataDoc.push(doc[key])
+  }
+  console.log(labelsDoc);
+  console.log(dataDoc);
   var myChart = new Chart(ctx, {
     type: 'pie',
     data: {
-      labels: ['EU_Sales', 'NA_Sales', 'JP_Sales', 'Other_Sales'],
+      labels: labelsDoc,
       datasets: [{
-        label: `# de ventas de ${doc.data().Name}`,
-        data: [doc.data().EU_Sales, doc.data().NA_Sales, doc.data().JP_Sales, doc.data().Other_Sales],
+        label: `Impacto de las consolas`,
+        data: dataDoc,
         backgroundColor: [
           'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
           'rgba(255, 169, 90, 1.5)',
+          'rgba(54, 162, 235, 1)',
           'rgba(255, 0, 90, 2)'
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(255, 169, 90, 1)'
         ],
-        borderWidth: 1
+        borderWidth: 0
       }]
     },
     options: {
@@ -144,3 +159,50 @@ function char(doc, ctx) {
     }
   });
 };
+
+function Hash (Games,Q,Percet = false){ 
+  let dit = []
+  
+  Games.forEach(doc =>{
+      let i=''
+      if(typeof(doc.get(Q)) == 'number'){
+      i = doc.get(Q).toString()+'a' 
+      }
+      else{
+
+          i = doc.get(Q)
+      }
+      if ( i in dit) {
+          ++dit[i];
+      }
+      else {
+          dit[i] = 1;
+      }
+  })
+  let dit2=  []
+  let total = 0
+  /*if(Percet === true){
+    console.log("entra a if");
+    console.log(typeof(dit));
+    console.log(dit);
+    for (const key in dit) {
+      console.log('Mostrar valor para sumar y tener total');
+      console.log(value);
+      total =+ value
+    }
+    console.log("NEXT");
+    for (let [key, value] of dit) {
+      console.log('Total')
+      console.log(total)
+      console.log('Mostrar valor para sumar y tener porcentaje');
+      console.log(value);
+      dit2[key] = intToPercet(value,total);
+    }
+    return dit2;
+  }*/
+  return dit
+}
+
+function intToPercet(value,total){
+  return (value/total)*100;
+}
