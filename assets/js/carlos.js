@@ -1,8 +1,8 @@
 //var myChart = document.getElementById('myChart').getContext('2d');
 //var content = document.getElementById('Content')
 let cardContent = document.getElementById('cards-for-games')
-let chartSummary = document.getElementById('summary-content')
-deleteElemtos(chartSummary)
+let contetSummary = document.getElementById('summary-content')
+deleteElemtos(contetSummary)
 //Conect to Firebase
 var firebaseConfig = {
   apiKey: "AIzaSyC4olR_uHqh4BMUCmFHRH2sReq84KpmSBA",
@@ -20,34 +20,93 @@ const btnTodo = document.getElementById('btnTodo');
 const btnGenre = document.getElementById('BtnGenre');
 const GetGame = (index) => firestore.collection("BaseGames").doc(index).get();
 
-const GetGames = () => firestore.collection("BaseGames").get();
+const GetGames = () => firestore.collection("BaseGames").orderBy('Rank').get(); 
 
 const GetWhere = (Genre) => firestore.collection("BaseGames").where('Genre', '==', Genre).get();
 
 //Tihs start the platform
 btnTodo.addEventListener('click', async (e) => {
-  let summaryContent = document.getElementById('summary-content')
   deleteElemtos(cardContent)
   summaryGtaph();
   const games = await GetGames()
   games.forEach(doc => {
+    
     let van = doc.data()
+    console.log(van)
     generateCard(van);
   });
 })
 
-async function summaryGtaph(){
+async function summaryGtaph() {
   const games = await GetGames()
-  nPublisher = Hash(games,'Publisher', true)
+  nPublisher = Hash(games, 'Publisher', true)
 
-  chartSummary.innerHTML =`
+  contetSummary.innerHTML = `
+  <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200" >
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="section-title section-title-chart">
+          <h2>Platforms</h2>
+        </div>
+        <div class="char-summary" id="char-summary">
+        </div>
+      </div>
+
+      <div class="col-lg-6 d-flex flex-column justify-content-center p-5">
+
+        <div class="icon-box">
+          <div class="icon"><i class="bx bx-fingerprint"></i></div>
+          <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+          <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
+            occaecati cupiditate non provident</p>
+        </div>
+
+        <div class="icon-box">
+          <div class="icon"><i class="bx bx-gift"></i></div>
+          <h4 class="title"><a href="">Nemo Enim</a></h4>
+          <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+            praesentium voluptatum deleniti atque</p>
+        </div>
+
+        <div class="icon-box">
+          <div class="icon"><i class="bx bx-gift"></i></div>
+          <h4 class="title"><a href="">Nemo Enim</a></h4>
+          <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+            praesentium voluptatum deleniti atque</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section><!-- End Why Us Section -->
+  `
+  let chartSummary = document.getElementById('char-summary')
+  chartSummary.innerHTML = `
     
   <canvas id = "ctx2" width="50px" height="40px"></canvas>
   
   `
-  let CTX2= document.getElementById('ctx2').getContext('2d');
+  let chartSummary1 = document.getElementById('char-summary-1')
+  chartSummary1.innerHTML = `
+    
+  <canvas id = "ctx3" width="50px" height="40px"></canvas>
+  
+  `
+  let chartSummary4 = document.getElementById('char-summary-4')
+  chartSummary4.innerHTML = `
+    
+  <canvas id = "ctx4" width="50px" height="40px"></canvas>
+  
+  `
+  let CTX2 = document.getElementById('ctx2').getContext('2d');
+  let CTX3 = document.getElementById('ctx3').getContext('2d');
+  let CTX4 = document.getElementById('ctx4').getContext('2d');
   char1(nPublisher, CTX2)
-
+  char1(nPublisher, CTX3)
+  char1(nPublisher, CTX4)
 }
 
 function getColorByGenre(genre) {
@@ -77,9 +136,10 @@ function generateCard(cardData) {
   cardContent.innerHTML += `
   <div class="col-md-6 col-lg-3 align-items-stretch" data-aos="fade-up">
       <div class="icon-box icon-box-${colorGenre}">
-        <div class="icon"><i class="bx bxl-dribbble"></i></div>
+        <div class="icon"><i class="bx bxl-dribbble"></i>
+        </div>
         <div class="header-card">
-          <h4 class="title-moderna"><a href="">${van.Name}</a></h4>
+          <h4 class="title-moderna"><a href="">${van.Rank}. ${van.Name}</a></h4>
           <div class="label">Genre</div>
           <span class="subtile-card">${van.Genre}</span>
         </div>
@@ -141,7 +201,8 @@ function char1(doc, ctx) {
           'rgba(255, 99, 132, 1)',
           'rgba(255, 169, 90, 1.5)',
           'rgba(54, 162, 235, 1)',
-          'rgba(255, 0, 90, 2)'
+          'rgba(255, 0, 90, 2)',
+          'rgba(5, 40, 30, 1)'
         ],
         borderColor: [
         ],
@@ -160,26 +221,26 @@ function char1(doc, ctx) {
   });
 };
 
-function Hash (Games,Q,Percet = false){ 
+function Hash(Games, Q, Percet = false) {
   let dit = []
-  
-  Games.forEach(doc =>{
-      let i=''
-      if(typeof(doc.get(Q)) == 'number'){
-      i = doc.get(Q).toString()+'a' 
-      }
-      else{
 
-          i = doc.get(Q)
-      }
-      if ( i in dit) {
-          ++dit[i];
-      }
-      else {
-          dit[i] = 1;
-      }
+  Games.forEach(doc => {
+    let i = ''
+    if (typeof (doc.get(Q)) == 'number') {
+      i = doc.get(Q).toString() + 'a'
+    }
+    else {
+
+      i = doc.get(Q)
+    }
+    if (i in dit) {
+      ++dit[i];
+    }
+    else {
+      dit[i] = 1;
+    }
   })
-  let dit2=  []
+  let dit2 = []
   let total = 0
   /*if(Percet === true){
     console.log("entra a if");
@@ -203,6 +264,6 @@ function Hash (Games,Q,Percet = false){
   return dit
 }
 
-function intToPercet(value,total){
-  return (value/total)*100;
+function intToPercet(value, total) {
+  return (value / total) * 100;
 }
