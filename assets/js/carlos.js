@@ -1,15 +1,14 @@
 //var myChart = document.getElementById('myChart').getContext('2d');
 //var content = document.getElementById('Content')
 let cardContent = document.getElementById('cards-for-games')
+let cardTitle = document.getElementById('gard-title')
 let contetSummary = document.getElementById('summary-content')
 let nYear=[]
 let color =[]
 let label = []
 let sele = `
-<label for="GNRE">Escoge un Genero:</label>
-
-<select name="GNRE" id="GNRE">
-    <option value="NA">--GENEROS--</option>
+<select class="form-control col-2" name="GNRE" id="GNRE">
+    <option value="All">Todos</option>
     <option value="Action">Action</option>
     <option value="Adventure">Adventure</option>
     <option value="Fighting">Fighting</option>
@@ -26,37 +25,6 @@ let sele = `
 
 `
 
-let seleJS = `
-deleteElemtos(div);
-    let genreSel = selectgen.value;
-    let GenreF =''
-    if(genreSel == 'NA'){
-        GenreF = await GetGames();
-    }else{
-        GenreF = await GetWhere(genreSel);
-    }
-    console.log(GenreF)
-
-    div.innerHTML+= <ul>
-    GenreF.forEach(doc => {
-        let id = doc.id;
-        let van = doc.data()
-        div.innerHTML+= 
-        <div>
-        <P>
-        $van.Name
-        </P>
-        <P>
-        $van.Genre
-        </P>
-        <button class = "btn-Graf" data-id="$id">Ver Graficos</button>
-        </div>
-        
-    });
-
-div.innerHTML+= </ul>
-BtnsGraph();
-})`
 
 deleteElemtos(contetSummary)
 //Conect to Firebase
@@ -85,9 +53,25 @@ btnTodo.addEventListener('click', async (e) => {
   deleteElemtos(cardContent)
   summaryGtaph();
   const games = await GetGames()
+  cardTitle.innerHTML += `
+    <div class="section-title" style="padding-top: 20px">
+      <h2>Ranking</h2>
+      <p>Listado de juegos y sus detalles</p>
+      <div class="row justify-content-center">
+        <div class="col-2">
+        <label for="GNRE">Escoge un Genero:</label>
+        </div>
+      </div>
+      <div class="row justify-content-center" style="padding-top:40px">
+        ${sele}
+      </div>
+      <div class="row justify-content-center" style="padding-top:40px">
+        <button type="button" class="btn btn-primary" id="btnFiltro" onclick="generateFilter()">Filtrar</button>
+      </div>
+    </div>
+    `
   games.forEach(doc => {
     let van = doc.data()
-    console.log(van)
     generateCard(van);
   });
 
@@ -98,7 +82,20 @@ btnTodo.addEventListener('click', async (e) => {
   //Lines(CTX3,label,nyearn)
 })
 
-
+async function generateFilter(){
+  deleteElemtos(cardContent)
+  let genreSel = document.getElementById('GNRE').value;
+  let GenreF =''
+  if(genreSel == 'All'){
+      GenreF = await GetGames();
+  }else{
+      GenreF = await GetWhere(genreSel);
+  }
+  GenreF.forEach(doc => {
+    let van = doc.data()
+    generateCard(van);
+  });
+}
 
 async function summaryGtaph() {
   const games = await GetGames()
@@ -122,11 +119,14 @@ async function summaryGtaph() {
   contetSummary.innerHTML = `
   <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200" >
   <div class="container">
-
+  <div class="section-title" style="padding-top: 20px">
+    <h2>RESUMEN</h2>
+    <p>Esto es una vista general de lo que es capas de hacer nuestra plataforma</p>
+  </div>
     <div class="row">
       <div class="col-lg-6">
         <div class="section-title section-title-chart">
-          <h2>Platforms</h2>
+          <h2>PLATAFORMAS</h2>
         </div>
         <div class="char-summary-1 space-border" id="char-summary">
         </div>
@@ -134,7 +134,7 @@ async function summaryGtaph() {
 
       <div class="col-lg-6">
         <div class="section-title section-title-chart">
-          <h2>Platforms</h2>
+          <h2>#JUEGOSxAÑO</h2>
         </div>
         <div class="space-border" id="char-summary-line">
         </div
