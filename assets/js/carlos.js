@@ -20,7 +20,7 @@ const btnTodo = document.getElementById('btnTodo');
 const btnGenre = document.getElementById('BtnGenre');
 const GetGame = (index) => firestore.collection("BaseGames").doc(index).get();
 
-const GetGames = () => firestore.collection("BaseGames").orderBy('Rank').get(); 
+const GetGames = () => firestore.collection("BaseGames").orderBy('Rank').get();
 
 const GetWhere = (Genre) => firestore.collection("BaseGames").where('Genre', '==', Genre).get();
 
@@ -30,7 +30,6 @@ btnTodo.addEventListener('click', async (e) => {
   summaryGtaph();
   const games = await GetGames()
   games.forEach(doc => {
-    
     let van = doc.data()
     console.log(van)
     generateCard(van);
@@ -89,24 +88,8 @@ async function summaryGtaph() {
   <canvas id = "ctx2" width="50px" height="40px"></canvas>
   
   `
-  let chartSummary1 = document.getElementById('char-summary-1')
-  chartSummary1.innerHTML = `
-    
-  <canvas id = "ctx3" width="50px" height="40px"></canvas>
-  
-  `
-  let chartSummary4 = document.getElementById('char-summary-4')
-  chartSummary4.innerHTML = `
-    
-  <canvas id = "ctx4" width="50px" height="40px"></canvas>
-  
-  `
   let CTX2 = document.getElementById('ctx2').getContext('2d');
-  let CTX3 = document.getElementById('ctx3').getContext('2d');
-  let CTX4 = document.getElementById('ctx4').getContext('2d');
   char1(nPublisher, CTX2)
-  char1(nPublisher, CTX3)
-  char1(nPublisher, CTX4)
 }
 
 function getColorByGenre(genre) {
@@ -161,8 +144,8 @@ function generateCard(cardData) {
             </div>
           </div>
         </div>
-        <a href="#" data-toggle="modal" data-target="#exampleModal">
-        <div type="button" class="footer-card" >
+        <a href="#" data-toggle="modal" data-target="#exampleModal" onclick="insertIntoModal(${van.Rank})">
+        <div type="button" class="footer-card" id="detail-game">
           <span> Details</span>
         </div>
         </a>
@@ -181,15 +164,11 @@ function char1(doc, ctx) {
   let labelsDoc = [];
   let dataDoc = [];
   for (const key in doc) {
-    console.log(key);
     labelsDoc.push(key)
   }
   for (const key in doc) {
-    console.log(doc[key]);
     dataDoc.push(doc[key])
   }
-  console.log(labelsDoc);
-  console.log(dataDoc);
   var myChart = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -216,6 +195,113 @@ function char1(doc, ctx) {
 
           }
         }]
+      }
+    }
+  });
+};
+
+async function insertIntoModal(rank) {
+  const game = await GetGame(rank.toString());
+  modalGraphs(game);
+  let modalTitle = document.getElementById("ModalTitle");
+  modalTitle.innerText = game.data().Name;
+  let ModalPlatform = document.getElementById("ModalPlatform");
+  ModalPlatform.innerText = game.data().Platform;
+  let ModalDeveloper = document.getElementById("ModalDeveloper");
+  ModalDeveloper.innerText = game.data().Publisher;
+  let ModalGenre = document.getElementById("ModalGenre");
+  ModalGenre.innerText = game.data().Genre;
+  let ModalRating = document.getElementById("ModalRating");
+  ModalRating.innerText = game.data().Rating;
+  let ModalYear = document.getElementById("ModalYear");
+  ModalYear.innerText = game.data().Year_of_Release;
+
+  let ModalGlobalSales = document.getElementById("ModalGlobalSales");
+  if (game.data().Global_Sales != "") {
+    ModalGlobalSales.innerText = game.data().Global_Sales;
+  }else{
+    ModalGlobalSales.innerText = "0";
+  }
+
+  let ModalCriticCount = document.getElementById("ModalCriticCount");
+  if (game.data().Critic_Count != "") {
+    ModalCriticCount.innerText = game.data().Critic_Count;
+  }else{
+    ModalCriticCount.innerText = "0";
+  }
+
+  let ModalUserCount = document.getElementById("ModalUserCount");
+  if (game.data().Critic_Count != "") {
+    ModalUserCount.innerText = game.data().Critic_Count;
+  }else{
+    ModalUserCount.innerText = "0";
+  }
+
+}
+
+function modalGraphs(game){
+
+  let chartSummary1 = document.getElementById('char-summary-1')
+  chartSummary1.innerHTML = `
+  <canvas id = "ctx3" width="50px" height="40px"></canvas>
+  `
+  let CTX3 = document.getElementById('ctx3').getContext('2d');
+  modalChar1(game, CTX3)
+  
+  let chartSummary4 = document.getElementById('char-summary-4')
+  if(game.data().Critic_Score === "" || game.data().User_Score === ""){
+    chartSummary4.innerHTML = `
+    <span> Lo sentimos, no contamos con la data para esta grafica</span>
+    <img src="https://media.istockphoto.com/vectors/error-page-dead-emoji-illustration-vector-id1095047472?k=6&m=1095047472&s=612x612&w=0&h=3pmxoo0x2rRQXv7z_3Ijm_tsMXMkJfImBdBsXmCJ_tQ=" alt="" class="img-fluid">
+  
+  `
+  }else{
+    chartSummary4.innerHTML = `
+    
+  <canvas id = "ctx4" width="50px" height="40px"></canvas>
+  
+  `
+  let CTX4 = document.getElementById('ctx4').getContext('2d');
+  modalChar2(game, CTX4)
+  }
+}
+
+function modalChar1(doc, ctx) {
+  var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['EU_Sales','NA_Sales','JP_Sales', 'Other_Sales'],
+      datasets: [{
+        label: "Numero de Ventas por Region (millions)",label: `Impacto de las consolas`,
+        data: [doc.data().EU_Sales,doc.data().NA_Sales, doc.data().JP_Sales, doc.data().Other_Sales],
+        backgroundColor: ['#044AC3','#0CC500','#D34600','#D300AC']
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: `Numero de Ventas por Region (millions)`
+      }
+    }
+  });
+};
+
+function modalChar2(doc, ctx) {
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Critic_Score','User_Score'],
+      datasets: [{
+        label: 'Critic_Score',
+        label: 'User_Score',
+        data: [doc.data().Critic_Score,doc.data().User_Score],
+        backgroundColor: ['#044AC3','#0CC500']
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: `Criticas Usuarios vs Critica)`
       }
     }
   });
