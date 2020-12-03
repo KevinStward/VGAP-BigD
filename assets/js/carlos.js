@@ -2,6 +2,9 @@
 //var content = document.getElementById('Content')
 let cardContent = document.getElementById('cards-for-games')
 let contetSummary = document.getElementById('summary-content')
+let nYear=[]
+let color =[]
+let label = []
 deleteElemtos(contetSummary)
 //Conect to Firebase
 var firebaseConfig = {
@@ -34,6 +37,26 @@ btnTodo.addEventListener('click', async (e) => {
     console.log(van)
     generateCard(van);
   });
+
+  //Ejecucion de las graficas de lineas
+
+
+  let forl = Object.keys(nYear);
+  let nyearn =[]
+   nyearn = OrdenarObjecto(nYear);
+
+ console.log(nyearn);
+  forl.forEach(year =>{
+
+      let y = parseInt(year.slice(0,-1))
+      label.push(y)
+      //console.log(typeof(y));
+     // let colo = randomColor();
+     
+  })
+  label.sort();
+  console.log(label);
+  //Lines(CTX3,label,nyearn)
 })
 
 async function summaryGtaph() {
@@ -353,3 +376,59 @@ function Hash(Games, Q, Percet = false) {
 function intToPercet(value, total) {
   return (value / total) * 100;
 }
+
+function Lines(ctx,label,data){
+  new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: label,
+        datasets: [{ 
+            data: Object.values(data),
+            label: "# de juegos",
+            borderColor: '#EC2121',
+            backgroundColor: '#D300AC',
+            
+            fill: false
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Cantidad de Juegos Por año'
+        },
+        scales: {
+          yAxes: [{
+              ticks: {
+                  suggestedMin: 0,
+                  suggestedMax: 10
+              }
+          }]
+      }
+      }
+    });
+
+
+}
+function randomColor(){
+
+  var r = Math.floor(Math.random() * 255);
+  var g = Math.floor(Math.random() * 255);
+  var b = Math.floor(Math.random() * 255);
+  return "rgb(" + r + "," + g + "," + b + ")";
+
+}
+
+function OrdenarObjecto(year){
+  let cc = []
+  let keys = Object.keys(year).sort()
+  keys.forEach(y =>{
+  
+      cc.push(year[y])
+  
+  
+  })
+  console.log(Object.values(cc));
+  return cc
+  }
+
+  
