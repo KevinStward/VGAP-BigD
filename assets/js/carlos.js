@@ -54,8 +54,8 @@ btnTodo.addEventListener('click', async (e) => {
   summaryGtaph();
   const games = await GetGames()
   cardTitle.innerHTML += `
-    <div class="section-title" style="padding-top: 20px">
-      <h2>Ranking</h2>
+    <div class="section-title" style="padding-top: 10px">
+      <h1>Ranking</h1>
       <p>Listado de juegos y sus detalles</p>
       <div class="row justify-content-center">
         <div class="col-2">
@@ -127,13 +127,13 @@ async function summaryGtaph() {
   <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200" >
   <div class="container">
   <div class="section-title" style="padding-top: 20px">
-    <h2>RESUMEN</h2>
-    <p>Esto es una vista general de lo que es capas de hacer nuestra plataforma</p>
+    <h1 class="display-4">RESUMEN</h1>
+    <p>A continuación se puede observar la cantidad de juegos por <span>distribuidores y año de lanzamiento</span>.</p>
   </div>
     <div class="row">
       <div class="col-lg-6">
         <div class="section-title section-title-chart">
-          <h2>PLATAFORMAS</h2>
+          <h3>Numero de juegos por distribuidores</h3>
         </div>
         <div class="char-summary-1 space-border" id="char-summary">
         </div>
@@ -141,7 +141,7 @@ async function summaryGtaph() {
 
       <div class="col-lg-6">
         <div class="section-title section-title-chart">
-          <h2>#JUEGOSxAÑO</h2>
+          <h3>Numero de juegos por año de lanzamiento</h3>
         </div>
         <div class="space-border" id="char-summary-line">
         </div
@@ -374,7 +374,7 @@ function modalChar2(doc, ctx) {
   data: {
       labels: ['CRITIC_SCORE', 'CRITIC_USER'],
       datasets: [{
-          label: '# of Votes',
+          label: 'Puntuacion',
           data: [parseInt(doc.data().Critic_Score),score],
           backgroundColor: [
               'rgba(255, 99, 132, 1)',
@@ -461,7 +461,7 @@ function Lines(ctx,label,data){
         labels: label,
         datasets: [{ 
             data: Object.values(data),
-            label: "# de juegos por año",
+            label: "Juegos",
             borderColor: '#EC2121',
             backgroundColor: '#D300AC',
             
@@ -470,14 +470,14 @@ function Lines(ctx,label,data){
       },
       options: {
         title: {
-          display: true,
+          display: false,
           text: 'Cantidad de Juegos Por año'
         },
         scales: {
           yAxes: [{
               ticks: {
                   suggestedMin: 0,
-                  suggestedMax: 10
+                  suggestedMax: 6
               }
           }]
       }
