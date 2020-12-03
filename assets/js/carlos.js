@@ -5,6 +5,102 @@ let contetSummary = document.getElementById('summary-content')
 let nYear=[]
 let color =[]
 let label = []
+let sele = `
+<label for="GNRE">Escoge un Genero:</label>
+
+<select name="GNRE" id="GNRE">
+    <option value="NA">--GENEROS--</option>
+    <option value="Action">Action</option>
+    <option value="Adventure">Adventure</option>
+    <option value="Fighting">Fighting</option>
+    <option value="Misc">Misc</option>
+    <option value="Platform">Platform</option>
+    <option value="Puzzle">Puzzle</option>
+    <option value="Racing">Racing</option>
+    <option value="Role-Playing">Role-Playing</option>
+    <option value="Shooter">Shooter</option>
+    <option value="Simulation">Simulation</option>
+    <option value="Sports">Sports</option>
+    <option value="Strategy">Strategy</option>
+</select> 
+
+`
+
+let seleJS = `
+deleteElemtos(div);
+    let genreSel = selectgen.value;
+    let GenreF =''
+    if(genreSel == 'NA'){
+        GenreF = await GetGames();
+    }else{
+        GenreF = await GetWhere(genreSel);
+    }
+    console.log(GenreF)
+
+    div.innerHTML+= <ul>
+    GenreF.forEach(doc => {
+        let id = doc.id;
+        let van = doc.data()
+        div.innerHTML+= 
+        <div>
+        <P>
+        $van.Name
+        </P>
+        <P>
+        $van.Genre
+        </P>
+        <button class = "btn-Graf" data-id="$id">Ver Graficos</button>
+        </div>
+        
+    });
+
+div.innerHTML+= </ul>
+BtnsGraph();
+})
+
+
+btnGraficar.addEventListener('click', async(e)=>{
+    deleteElemtos(div);
+    
+    const graf = await GetGame('10');
+    console.log(graf.data())
+    div.innerHTML = 
+    <div>
+    <canvas id = "ctx2" width="50" height="40"></canvas>
+    </div>
+    <div>
+    <canvas id = "ctx3" width="50" height="40"></canvas>
+    </div>
+    
+    let CTX2= document.getElementById('ctx2').getContext('2d');
+  console.log(CTX2)
+  let CTX3= document.getElementById('ctx3').getContext('2d');
+  console.log(CTX3)
+    BarrasVentasChart(graf,CTX2)
+   // Lines(graf,CTX3)
+
+   console.log(Object.values(nYear));
+   let forl = Object.keys(nYear);
+    let nyearn =[]
+     nyearn = OrdenarObjecto(nYear);
+
+   console.log(nyearn);
+    forl.forEach(year =>{
+
+        let y = parseInt(year.slice(0,-1))
+        label.push(y)
+        //console.log(typeof(y));
+       // let colo = randomColor();
+       
+    })
+    label.sort();
+    console.log(label);
+    Lines(CTX3,label,nyearn)
+
+
+})
+`
+
 deleteElemtos(contetSummary)
 //Conect to Firebase
 var firebaseConfig = {
@@ -431,4 +527,3 @@ function OrdenarObjecto(year){
   return cc
   }
 
-  
