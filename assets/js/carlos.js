@@ -66,7 +66,7 @@ btnTodo.addEventListener('click', async (e) => {
         ${sele}
       </div>
       <div class="row justify-content-center" style="padding-top:40px">
-        <button type="button" class="btn btn-primary" id="btnFiltro" onclick="generateFilter()">Filtrar</button>
+        <button type="button" class="btn btn-info" id="btnFiltro" onclick="generateFilter()">Filtrar</button>
       </div>
     </div>
     `
@@ -91,10 +91,17 @@ async function generateFilter(){
   }else{
       GenreF = await GetWhere(genreSel);
   }
-  GenreF.forEach(doc => {
-    let van = doc.data()
-    generateCard(van);
-  });
+  console.log(GenreF);
+  if(GenreF.size == 0){
+    cardContent.innerHTML += `
+    <h3> No hay juegos de genero: ${genreSel}
+    `
+  }else{
+    GenreF.forEach(doc => {
+      let van = doc.data()
+      generateCard(van);
+    });
+  }
 }
 
 async function summaryGtaph() {
@@ -189,7 +196,7 @@ function generateCard(cardData) {
         <div class="icon"><i class="bx bxl-dribbble"></i>
         </div>
         <div class="header-card">
-          <h4 class="title-moderna"><a href="">${van.Rank}. ${van.Name}</a></h4>
+          <h4 class="title-moderna">${van.Rank}. ${van.Name}</h4>
           <div class="label">Genre</div>
           <span class="subtile-card">${van.Genre}</span>
         </div>
