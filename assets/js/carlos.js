@@ -56,50 +56,7 @@ deleteElemtos(div);
 
 div.innerHTML+= </ul>
 BtnsGraph();
-})
-
-
-btnGraficar.addEventListener('click', async(e)=>{
-    deleteElemtos(div);
-    
-    const graf = await GetGame('10');
-    console.log(graf.data())
-    div.innerHTML = 
-    <div>
-    <canvas id = "ctx2" width="50" height="40"></canvas>
-    </div>
-    <div>
-    <canvas id = "ctx3" width="50" height="40"></canvas>
-    </div>
-    
-    let CTX2= document.getElementById('ctx2').getContext('2d');
-  console.log(CTX2)
-  let CTX3= document.getElementById('ctx3').getContext('2d');
-  console.log(CTX3)
-    BarrasVentasChart(graf,CTX2)
-   // Lines(graf,CTX3)
-
-   console.log(Object.values(nYear));
-   let forl = Object.keys(nYear);
-    let nyearn =[]
-     nyearn = OrdenarObjecto(nYear);
-
-   console.log(nyearn);
-    forl.forEach(year =>{
-
-        let y = parseInt(year.slice(0,-1))
-        label.push(y)
-        //console.log(typeof(y));
-       // let colo = randomColor();
-       
-    })
-    label.sort();
-    console.log(label);
-    Lines(CTX3,label,nyearn)
-
-
-})
-`
+})`
 
 deleteElemtos(contetSummary)
 //Conect to Firebase
@@ -121,7 +78,7 @@ const GetGame = (index) => firestore.collection("BaseGames").doc(index).get();
 
 const GetGames = () => firestore.collection("BaseGames").orderBy('Rank').get();
 
-const GetWhere = (Genre) => firestore.collection("BaseGames").where('Genre', '==', Genre).get();
+const GetWhere = (Genre) => firestore.collection("BaseGames").where('Genre','==',Genre).orderBy('Rank').get();
 
 //Tihs start the platform
 btnTodo.addEventListener('click', async (e) => {
@@ -137,28 +94,31 @@ btnTodo.addEventListener('click', async (e) => {
   //Ejecucion de las graficas de lineas
 
 
-  let forl = Object.keys(nYear);
-  let nyearn =[]
-   nyearn = OrdenarObjecto(nYear);
+  
+  //Lines(CTX3,label,nyearn)
+})
 
- console.log(nyearn);
-  forl.forEach(year =>{
+
+
+async function summaryGtaph() {
+  const games = await GetGames()
+  nPublisher = Hash(games, 'Publisher', true)
+  nYear = Hash(games,'Year_of_Release', true)
+
+  let Keys = Object.keys(nYear);
+  let Data =[]
+  Data = OrdenarObjecto(nYear);
+
+ console.log(Data);
+  Keys.forEach(year =>{
 
       let y = parseInt(year.slice(0,-1))
       label.push(y)
       //console.log(typeof(y));
      // let colo = randomColor();
-     
   })
   label.sort();
   console.log(label);
-  //Lines(CTX3,label,nyearn)
-})
-
-async function summaryGtaph() {
-  const games = await GetGames()
-  nPublisher = Hash(games, 'Publisher', true)
-
   contetSummary.innerHTML = `
   <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200" >
   <div class="container">
@@ -168,47 +128,35 @@ async function summaryGtaph() {
         <div class="section-title section-title-chart">
           <h2>Platforms</h2>
         </div>
-        <div class="char-summary" id="char-summary">
+        <div class="char-summary-1 space-border" id="char-summary">
         </div>
       </div>
 
-      <div class="col-lg-6 d-flex flex-column justify-content-center p-5">
-
-        <div class="icon-box">
-          <div class="icon"><i class="bx bx-fingerprint"></i></div>
-          <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-          <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
-            occaecati cupiditate non provident</p>
+      <div class="col-lg-6">
+        <div class="section-title section-title-chart">
+          <h2>Platforms</h2>
         </div>
-
-        <div class="icon-box">
-          <div class="icon"><i class="bx bx-gift"></i></div>
-          <h4 class="title"><a href="">Nemo Enim</a></h4>
-          <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-            praesentium voluptatum deleniti atque</p>
-        </div>
-
-        <div class="icon-box">
-          <div class="icon"><i class="bx bx-gift"></i></div>
-          <h4 class="title"><a href="">Nemo Enim</a></h4>
-          <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-            praesentium voluptatum deleniti atque</p>
-        </div>
-
-      </div>
-    </div>
-
+        <div class="space-border" id="char-summary-line">
+        </div
   </div>
 </section><!-- End Why Us Section -->
   `
   let chartSummary = document.getElementById('char-summary')
+  let chartSummaryL= document.getElementById('char-summary-line')
   chartSummary.innerHTML = `
     
   <canvas id = "ctx2" width="50px" height="40px"></canvas>
   
   `
+  chartSummaryL.innerHTML = `
+    
+  <canvas id = "ctxl" width="50px" height="40px"></canvas>
+  
+  `
   let CTX2 = document.getElementById('ctx2').getContext('2d');
+  let ctxl = document.getElementById('ctxl').getContext('2d');
   char1(nPublisher, CTX2)
+  Lines(ctxl,label,Data)
 }
 
 function getColorByGenre(genre) {
@@ -331,7 +279,14 @@ async function insertIntoModal(rank) {
   let ModalGenre = document.getElementById("ModalGenre");
   ModalGenre.innerText = game.data().Genre;
   let ModalRating = document.getElementById("ModalRating");
-  ModalRating.innerText = game.data().Rating;
+
+  if (game.data().Rating != "") {
+    ModalRating.innerText = game.data().Rating;
+  
+}else{
+  ModalRating.innerText = "N/A"
+  }
+  
   let ModalYear = document.getElementById("ModalYear");
   ModalYear.innerText = game.data().Year_of_Release;
 
@@ -406,24 +361,43 @@ function modalChar1(doc, ctx) {
 };
 
 function modalChar2(doc, ctx) {
-  var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Critic_Score','User_Score'],
+ let score =  parseInt(doc.data().User_Score) * 10 //
+ var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+      labels: ['CRITIC_SCORE', 'CRITIC_USER'],
       datasets: [{
-        label: 'Critic_Score',
-        label: 'User_Score',
-        data: [doc.data().Critic_Score,doc.data().User_Score],
-        backgroundColor: ['#044AC3','#0CC500']
+          label: '# of Votes',
+          data: [parseInt(doc.data().Critic_Score),score],
+          backgroundColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1 )',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
       }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: `Criticas Usuarios vs Critica)`
+  },
+  options: {
+      scales: {
+          yAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+          }]
       }
-    }
-  });
+  }
+});
 };
 
 function Hash(Games, Q, Percet = false) {
@@ -475,12 +449,12 @@ function intToPercet(value, total) {
 
 function Lines(ctx,label,data){
   new Chart(ctx, {
-      type: 'radar',
+      type: 'line',
       data: {
         labels: label,
         datasets: [{ 
             data: Object.values(data),
-            label: "# de juegos",
+            label: "# de juegos por año",
             borderColor: '#EC2121',
             backgroundColor: '#D300AC',
             

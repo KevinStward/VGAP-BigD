@@ -55,3 +55,10 @@
   text-align: center;
   padding: 10px 0px;
 }
+.char-summary-1{
+border-right: solid 2px rgba(88, 125, 206, 0.658);
+}
+
+.space-border{
+  padding: 40px ;
+}
